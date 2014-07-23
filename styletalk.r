@@ -1,7 +1,7 @@
 Rebol [
 	Title: "StyleTalk"
 	Purpose: "Compact Style Sheets in Rebol"
-	Version: 0.2.0
+	Version: 0.2.1
 	Date: 17-Jun-2013
 	Author: "Christopher Ross-Gill"
 	Name: 'styletalk
@@ -230,7 +230,7 @@ parser: context [
 	position-x: ['right | 'left | 'center]
 	position-y: ['top | 'bottom | 'middle]
 	position: [position-y | position-x]
-	positions: [position-y position-x | position-y | position-x]
+	positions: [position-x position-y | position-y position-x | position-y | position-x]
 	repeats: ['repeat-x | 'repeat-y | 'repeat ['x | 'y] | 'no-repeat | 'no 'repeat]
 	font-name: [string! | 'sans-serif | 'serif | 'monospace]
 	length: [em | pt | px | percent | vh | vw]
@@ -413,6 +413,26 @@ parser: context [
 		| 'border any [
 			  mark 1 4 border-style capture (emits 'border-style)
 			| mark 1 4 color capture (emits 'border-color)
+			| 'top any [
+				  mark length capture (emits 'border-top-length)
+				| mark border-style capture (emits 'border-top-style)
+				| mark color capture (emits 'border-top-color)
+			]
+			| 'bottom any [
+				  mark length capture (emits 'border-bottom-length)
+				| mark border-style capture (emits 'border-bottom-style)
+				| mark color capture (emits 'border-bottom-color)
+			]
+			| 'right any [
+				  mark length capture (emits 'border-right-length)
+				| mark border-style capture (emits 'border-right-style)
+				| mark color capture (emits 'border-right-color)
+			]
+			| 'left any [
+				  mark length capture (emits 'border-left-length)
+				| mark border-style capture (emits 'border-left-style)
+				| mark color capture (emits 'border-left-color)
+			]
 			| 'radius [
 				some [
 					  'top mark 1 2 length capture (
@@ -616,7 +636,7 @@ parser: context [
 	; Output
 	render: does [
 		rejoin collect [
-			keep {/* CSSR Output */^/}
+			keep {/* StyleTalk Output */^/}
 			if all [
 				block? google-fonts
 				not empty? google-fonts
@@ -645,14 +665,14 @@ parser: context [
 				keep reset
 				keep "/* CSS Reset End **/^/"
 			]
-			keep "^//** CSSR Output Begin */^/^/"
+			keep "^//** StyleTalk Output Begin */^/^/"
 			foreach [selector rule] rules [
 				keep selector
 				keep " "
 				keep rule/render
 				keep "^/"
 			]
-			keep "^/^//* CSSR Output End **/^/"
+			keep "^/^//* StyleTalk Output End **/^/"
 		]
 	]
 
