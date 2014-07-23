@@ -570,6 +570,7 @@ parser: context [
 		| 'no ['list opt 'style | 'bullet] (emit 'list-style-type 'none)
 		| opt ['list opt 'style | 'bullet] mark list-styles capture (emits 'list-style-type)
 		| mark ['inside | 'outside] capture (emits 'list-style-position)
+		| 'z-index mark integer! capture (emit 'z-index compose [* (captured)])
 
 		; Any Singleton Values
 		| mark [
