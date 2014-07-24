@@ -237,7 +237,26 @@ parser: context [
 	length: [em | pt | px | percent | vh | vw]
 	angle: [deg]
 	number: [scalar | number!]
-	box-model: ['block | 'inline 'block | 'inline-block]
+
+	; NOTE: CSS1 must be at end, because of INLINE - 
+	; so does not eat INLINE BLOCK, INLINE TABLE, ...
+	box-model: [
+		  box-model-css3-grid | box-model-css3-flex | box-model-css2-table 
+		| box-model-css2-ext | box-model-css1
+	]
+	box-model-css1: [
+		'block | 'list 'item | 'list-item | 'inline
+	]
+	box-model-css2-ext: ['inline 'block | 'inline-block]
+	box-model-css2-table: [
+		  'inline 'table | 'inline-table | 'table 'caption | 'table-caption 
+		| 'table 'cell | 'table-cell | 'table 'column 'group | 'table-column-group
+		| 'table 'column | 'table-column | 'table 'footer 'group | 'table-footer-group
+		| 'table 'header 'group | 'table-header-group | 'table 'row 'group
+		| 'table-row-group | 'table 'row | 'table-row | 'table ; must be at end
+	]
+	box-model-css3-flex: ['inline 'flex | 'inline-flex | 'flex]
+	box-model-css3-grid: ['inline 'grid | 'inline-grid | 'grid]
 
 	; Capture/Use System
 	; parse block [mark ... capture (:captured)]
@@ -496,7 +515,8 @@ parser: context [
 		]
 		| 'opacity mark number capture (emits 'opacity)
 		| mark 'nowrap capture (emits 'white-space)
-		| mark 'center capture (emits 'text-align)
+;		| mark 'center capture (emits 'text-align)
+		| mark position-x capture (emits 'text-align)
 		| 'transition any [
 			mark transition-attribute time opt time capture (
 				append/only current/transitions captured
