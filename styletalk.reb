@@ -5,9 +5,11 @@ Rebol [
 	Date: 17-Jun-2013
 	Author: "Christopher Ross-Gill"
 	Name: 'styletalk
-	Type: 'module
+;	Type: 'module
 	Exports: [to-css]
 ]
+
+print "it works!"
 
 to-css: use [ruleset parser ??][
 
@@ -507,7 +509,7 @@ parser: context [
 		| ['line-through | 'strike 'through] (emit 'text-decoration 'line-through)
 		| 'shadow mark pair length color capture (emits 'box-shadow)
 		| 'color mark [color | 'inherit] capture (emits 'color)
-		| mark ['relative | 'absolute | 'fixed] capture (emits 'position) any [
+		| mark ['relative | 'absolute | 'fixed | 'static] capture (emits 'position) any [
 			  'top mark length capture (emits 'top)
 			| 'bottom mark length capture (emits 'bottom)
 			| 'right mark length capture (emits 'right)
