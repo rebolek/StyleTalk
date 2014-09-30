@@ -526,6 +526,7 @@ parser: context [
 			| mark positions capture (emits 'background-position)
 			| mark repeats capture (emits 'background-repeat)
 			| mark ['contain | 'cover] capture (emits 'background-size)
+			| mark ['scroll | 'fixed | 'local] capture (emits 'background-attachment)
 			| mark pair capture (
 				captured: first captured
 				emit 'background-position reduce [
